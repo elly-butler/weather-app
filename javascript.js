@@ -7,6 +7,8 @@ const displayLocation = document.getElementById('displayLocation');
 const displayTemp = document.getElementById('displayTemp');
 const displayDesc = document.getElementById('displayDesc');
 
+const displayFeelsLike = document.getElementById("displayFeelsLike");
+
 //console.log(apiUrl)
 
 function weatherInfo(location) {
@@ -16,17 +18,24 @@ function weatherInfo(location) {
         .then(response => response.json())
         .then(data => {
             displayLocation.textContent = data.name;
-            displayTemp.textContent = `${Math.round(data.main.temp)}°C`;
+            // displayTemp.textContent = `${Math.round(data.main.temp)}°C`;
+            displayTemp.textContent = data.main.temp;
             displayDesc.textContent = data.weather[0].description;
+
+            displayFeelsLike.textContent = `Feels Like: ${data.main.feels_like}`;
         })
         .catch(error => {
             console.error('Error fetching weather data:', error);
         });
+
+
+
 }
 
 searchButton.addEventListener('click', () => {
     const location = locationInput.value;
     if (location) {
         weatherInfo(location);
-    }
+    };
+    locationInput.value = '';
 });
